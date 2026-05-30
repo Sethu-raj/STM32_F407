@@ -1,0 +1,35 @@
+10:26:38 **** Incremental Build of configuration Debug for project 12_HAL_UART_MemToMem_DMA ****
+make -j8 all 
+arm-none-eabi-size  12_HAL_UART_MemToMem_DMA.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10584	     40	   1752	  12376	   3058	12_HAL_UART_MemToMem_DMA.elf
+Finished building: default.size.stdout
+ 
+10:36:39 **** Incremental Build of configuration Debug for project 12_HAL_UART_MemToMem_DMA ****
+make -j8 all 
+arm-none-eabi-size  12_HAL_UART_MemToMem_DMA.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10584	     40	   1752	  12376	   3058	12_HAL_UART_MemToMem_DMA.elf
+Finished building: default.size.stdout
+ 
+10:42:37 **** Incremental Build of configuration Debug for project 12_HAL_UART_MemToMem_DMA ****
+make -j8 all 
+arm-none-eabi-size  12_HAL_UART_MemToMem_DMA.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10584	     40	   1752	  12376	   3058	12_HAL_UART_MemToMem_DMA.elf
+Finished building: default.size.stdout
+ 
+10:45:57 **** Incremental Build of configuration Debug for project 12_HAL_UART_MemToMem_DMA ****
+make -j8 all 
+arm-none-eabi-size  12_HAL_UART_MemToMem_DMA.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10584	     40	   1752	  12376	   3058	12_HAL_UART_MemToMem_DMA.elf
+Finished building: default.size.stdout
+ 
+10:46:32 **** Incremental Build of configuration Debug for project 12_HAL_UART_MemToMem_DMA ****
+make -j8 all 
+arm-none-eabi-size  12_HAL_UART_MemToMem_DMA.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10584	     40	   1752	  12376	   3058	12_HAL_UART_MemToMem_DMA.elf
+Finished building: default.size.stdout
+ 

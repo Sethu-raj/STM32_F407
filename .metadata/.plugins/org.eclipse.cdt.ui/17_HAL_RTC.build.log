@@ -1,0 +1,10 @@
+12:03:16 **** Incremental Build of configuration Debug for project 17_HAL_RTC ****
+make -j8 all 
+arm-none-eabi-size  17_HAL_RTC.elf 
+   text	   data	    bss	    dec	    hex	filename
+   7292	     12	   1628	   8932	   22e4	17_HAL_RTC.elf
+Finished building: default.size.stdout
+ 
+
+12:03:17 Build Finished. 0 errors, 0 warnings. (took 1s.216ms)
+
