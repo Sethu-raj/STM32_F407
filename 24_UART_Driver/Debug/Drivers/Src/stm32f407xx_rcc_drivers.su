@@ -1,0 +1,2 @@
+../Drivers/Src/stm32f407xx_rcc_drivers.c:21:10:RCC_GetPCLK1Value	24	static
+../Drivers/Src/stm32f407xx_rcc_drivers.c:69:10:RCC_GetPCLK2Value	24	static

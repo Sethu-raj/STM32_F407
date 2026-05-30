@@ -1,0 +1,4 @@
+../Src/01_spi_tx_testings.c:22:6:delay	2
+../Src/01_spi_tx_testings.c:30:6:SPI2_GPIOInits	1
+../Src/01_spi_tx_testings.c:66:6:SPI2_Init	1
+../Src/01_spi_tx_testings.c:85:5:main	1
