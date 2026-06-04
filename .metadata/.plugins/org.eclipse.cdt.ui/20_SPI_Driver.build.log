@@ -1,0 +1,17 @@
+09:49:55 **** Incremental Build of configuration Debug for project 20_SPI_Driver ****
+make -j8 all 
+arm-none-eabi-gcc "../Src/01_spi_tx_testings.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -I"C:/Users/hp/STM32CubeIDE/workspace_1.18.0/20_SPI_Driver/Inc" -I"C:/Users/hp/STM32CubeIDE/workspace_1.18.0/20_SPI_Driver/Drivers/Inc" -I"C:/Users/hp/STM32CubeIDE/workspace_1.18.0/20_SPI_Driver/Drivers/Inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/01_spi_tx_testings.d" -MT"Src/01_spi_tx_testings.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/01_spi_tx_testings.o"
+arm-none-eabi-gcc -o "20_SPI_Driver.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\hp\STM32CubeIDE\workspace_1.18.0\20_SPI_Driver\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="20_SPI_Driver.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: 20_SPI_Driver.elf
+ 
+arm-none-eabi-size  20_SPI_Driver.elf 
+arm-none-eabi-objdump -h -S 20_SPI_Driver.elf  > "20_SPI_Driver.list"
+   text	   data	    bss	    dec	    hex	filename
+   3016	     12	   1596	   4624	   1210	20_SPI_Driver.elf
+Finished building: default.size.stdout
+ 
+Finished building: 20_SPI_Driver.list
+ 
+
+09:49:56 Build Finished. 0 errors, 0 warnings. (took 1s.471ms)
+

@@ -1,0 +1,10 @@
+12:48:34 **** Incremental Build of configuration Debug for project 44_Simple_Tasks_Creation_FreeRTOS ****
+make -j8 all 
+arm-none-eabi-size  44_Simple_Tasks_Creation_FreeRTOS.elf 
+   text	   data	    bss	    dec	    hex	filename
+  11596	     16	  17872	  29484	   732c	44_Simple_Tasks_Creation_FreeRTOS.elf
+Finished building: default.size.stdout
+ 
+
+12:48:35 Build Finished. 0 errors, 0 warnings. (took 763ms)
+

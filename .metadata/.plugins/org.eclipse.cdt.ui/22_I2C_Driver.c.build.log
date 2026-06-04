@@ -1,0 +1,26 @@
+06:17:05 **** Incremental Build of configuration Debug for project 22_I2C_Driver.c ****
+make -j8 all 
+arm-none-eabi-gcc "../Drivers/Src/stm32f407xx_i2c_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -I"C:/Users/hp/STM32CubeIDE/workspace_1.18.0/22_I2C_Driver.c/Inc" -I"C:/Users/hp/STM32CubeIDE/workspace_1.18.0/22_I2C_Driver.c/Drivers/Inc" -I"C:/Users/hp/STM32CubeIDE/workspace_1.18.0/22_I2C_Driver.c/Drivers/Inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/Src/stm32f407xx_i2c_driver.d" -MT"Drivers/Src/stm32f407xx_i2c_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/Src/stm32f407xx_i2c_driver.o"
+In file included from ../Drivers/Src/stm32f407xx_i2c_driver.c:8:
+C:/Users/hp/STM32CubeIDE/workspace_1.18.0/22_I2C_Driver.c/Drivers/Inc/stm32f407xx_i2c_driver.h:116:2: error: conflicting types for 'I2C_Handle_t'; have 'struct <anonymous>'
+  116 | }I2C_Handle_t;
+      |  ^~~~~~~~~~~~
+C:/Users/hp/STM32CubeIDE/workspace_1.18.0/22_I2C_Driver.c/Drivers/Inc/stm32f407xx_i2c_driver.h:40:2: note: previous declaration of 'I2C_Handle_t' with type 'I2C_Handle_t'
+   40 | }I2C_Handle_t;
+      |  ^~~~~~~~~~~~
+../Drivers/Src/stm32f407xx_i2c_driver.c: In function 'I2C_MasterSendData':
+../Drivers/Src/stm32f407xx_i2c_driver.c:252:9: warning: implicit declaration of function 'I2C_ExecuteAddressPhaseWrite' [-Wimplicit-function-declaration]
+  252 |         I2C_ExecuteAddressPhaseWrite(pI2CHandle->pI2Cx,SlaveAddr);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Drivers/Src/stm32f407xx_i2c_driver.c:259:9: warning: implicit declaration of function 'I2C_ClearADDRFlag' [-Wimplicit-function-declaration]
+  259 |         I2C_ClearADDRFlag(pI2CHandle);
+      |         ^~~~~~~~~~~~~~~~~
+../Drivers/Src/stm32f407xx_i2c_driver.c:290:9: warning: implicit declaration of function 'I2C_GenerateStopCondition'; did you mean 'I2C_GenerateStartCondition'? [-Wimplicit-function-declaration]
+  290 |         I2C_GenerateStopCondition(pI2CHandle->pI2Cx);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+      |         I2C_GenerateStartCondition
+make: *** [Drivers/Src/subdir.mk:25: Drivers/Src/stm32f407xx_i2c_driver.o] Error 1
+"make -j8 all" terminated with exit code 2. Build might be incomplete.
+
+06:17:05 Build Failed. 2 errors, 3 warnings. (took 633ms)
+

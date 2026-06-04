@@ -1,0 +1,31 @@
+12:02:33 **** Incremental Build of configuration Debug for project 35_UART_DMA_BareMetal ****
+make -j8 all 
+arm-none-eabi-gcc -mcpu=cortex-m4 -g3 -DDEBUG -c -x assembler-with-cpp -MMD -MP -MF"Startup/startup_stm32f407vgtx.d" -MT"Startup/startup_stm32f407vgtx.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Startup/startup_stm32f407vgtx.o" "../Startup/startup_stm32f407vgtx.s"
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -I"C:/Users/hp/STM32CubeIDE/workspace_1.18.0/35_UART_DMA_BareMetal/Inc" -I"C:/Users/hp/STM32CubeIDE/workspace_1.18.0/35_UART_DMA_BareMetal/Drivers/Inc" -I"C:/Users/hp/STM32CubeIDE/workspace_1.18.0/35_UART_DMA_BareMetal/Drivers/Inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc "../Src/syscalls.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -I"C:/Users/hp/STM32CubeIDE/workspace_1.18.0/35_UART_DMA_BareMetal/Inc" -I"C:/Users/hp/STM32CubeIDE/workspace_1.18.0/35_UART_DMA_BareMetal/Drivers/Inc" -I"C:/Users/hp/STM32CubeIDE/workspace_1.18.0/35_UART_DMA_BareMetal/Drivers/Inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/syscalls.d" -MT"Src/syscalls.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/syscalls.o"
+arm-none-eabi-gcc "../Src/sysmem.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -I"C:/Users/hp/STM32CubeIDE/workspace_1.18.0/35_UART_DMA_BareMetal/Inc" -I"C:/Users/hp/STM32CubeIDE/workspace_1.18.0/35_UART_DMA_BareMetal/Drivers/Inc" -I"C:/Users/hp/STM32CubeIDE/workspace_1.18.0/35_UART_DMA_BareMetal/Drivers/Inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/sysmem.d" -MT"Src/sysmem.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/sysmem.o"
+arm-none-eabi-gcc "../Drivers/Src/stm32f407xx_gpio_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -I"C:/Users/hp/STM32CubeIDE/workspace_1.18.0/35_UART_DMA_BareMetal/Inc" -I"C:/Users/hp/STM32CubeIDE/workspace_1.18.0/35_UART_DMA_BareMetal/Drivers/Inc" -I"C:/Users/hp/STM32CubeIDE/workspace_1.18.0/35_UART_DMA_BareMetal/Drivers/Inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/Src/stm32f407xx_gpio_driver.d" -MT"Drivers/Src/stm32f407xx_gpio_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/Src/stm32f407xx_gpio_driver.o"
+arm-none-eabi-gcc "../Drivers/Src/stm32f407xx_rcc_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -I"C:/Users/hp/STM32CubeIDE/workspace_1.18.0/35_UART_DMA_BareMetal/Inc" -I"C:/Users/hp/STM32CubeIDE/workspace_1.18.0/35_UART_DMA_BareMetal/Drivers/Inc" -I"C:/Users/hp/STM32CubeIDE/workspace_1.18.0/35_UART_DMA_BareMetal/Drivers/Inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/Src/stm32f407xx_rcc_driver.d" -MT"Drivers/Src/stm32f407xx_rcc_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/Src/stm32f407xx_rcc_driver.o"
+arm-none-eabi-gcc "../Drivers/Src/stm32f407xx_usart_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -I"C:/Users/hp/STM32CubeIDE/workspace_1.18.0/35_UART_DMA_BareMetal/Inc" -I"C:/Users/hp/STM32CubeIDE/workspace_1.18.0/35_UART_DMA_BareMetal/Drivers/Inc" -I"C:/Users/hp/STM32CubeIDE/workspace_1.18.0/35_UART_DMA_BareMetal/Drivers/Inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/Src/stm32f407xx_usart_driver.d" -MT"Drivers/Src/stm32f407xx_usart_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/Src/stm32f407xx_usart_driver.o"
+../Drivers/Src/stm32f407xx_usart_driver.c: In function 'USART_IRQHandling':
+../Drivers/Src/stm32f407xx_usart_driver.c:551:30: warning: variable 'temp3' set but not used [-Wunused-but-set-variable]
+  551 |         uint32_t temp1,temp2,temp3;
+      |                              ^~~~~
+../Drivers/Src/stm32f407xx_rcc_driver.c: In function 'RCC_GetPCLK1Value':
+../Drivers/Src/stm32f407xx_rcc_driver.c:29:29: warning: implicit declaration of function 'RCC_GetPLLOutputClock' [-Wimplicit-function-declaration]
+   29 |                 SystemClk = RCC_GetPLLOutputClock();
+      |                             ^~~~~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "35_UART_DMA_BareMetal.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\hp\STM32CubeIDE\workspace_1.18.0\35_UART_DMA_BareMetal\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="35_UART_DMA_BareMetal.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: 35_UART_DMA_BareMetal.elf
+ 
+arm-none-eabi-size  35_UART_DMA_BareMetal.elf 
+arm-none-eabi-objdump -h -S 35_UART_DMA_BareMetal.elf  > "35_UART_DMA_BareMetal.list"
+   text	   data	    bss	    dec	    hex	filename
+   1136	      8	   1616	   2760	    ac8	35_UART_DMA_BareMetal.elf
+Finished building: default.size.stdout
+ 
+Finished building: 35_UART_DMA_BareMetal.list
+ 
+
+12:02:35 Build Finished. 0 errors, 2 warnings. (took 1s.708ms)
+

@@ -1,0 +1,10 @@
+15:29:04 **** Incremental Build of configuration Debug for project 39_Ultrasonic_test_with_GPIO_Driver ****
+make -j8 all 
+arm-none-eabi-size  39_Ultrasonic_test_with_GPIO_Driver.elf 
+   text	   data	    bss	    dec	    hex	filename
+   3264	      0	   1576	   4840	   12e8	39_Ultrasonic_test_with_GPIO_Driver.elf
+Finished building: default.size.stdout
+ 
+
+15:29:04 Build Finished. 0 errors, 0 warnings. (took 301ms)
+

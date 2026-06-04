@@ -1,0 +1,10 @@
+15:59:16 **** Incremental Build of configuration Debug for project 43_VehicleTracking ****
+make -j8 all 
+arm-none-eabi-size  43_VehicleTracking.elf 
+   text	   data	    bss	    dec	    hex	filename
+  13496	     92	   2156	  15744	   3d80	43_VehicleTracking.elf
+Finished building: default.size.stdout
+ 
+
+15:59:17 Build Finished. 0 errors, 0 warnings. (took 527ms)
+

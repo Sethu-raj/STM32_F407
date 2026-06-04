@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;22_I2C_Driver.c/Drivers/Src/i2c_driver.c&apos; to &apos;stm32f407xx_i2c_driver.c&apos;" description="Rename resource &apos;i2c_driver.c&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="Drivers/Src/i2c_driver.c" name="stm32f407xx_i2c_driver.c" stamp="1779343053241" updateReferences="true"/>
+</session>

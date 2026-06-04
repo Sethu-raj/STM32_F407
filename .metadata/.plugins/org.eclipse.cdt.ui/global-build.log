@@ -1,35 +1,14 @@
-10:26:38 **** Incremental Build of configuration Debug for project 12_HAL_UART_MemToMem_DMA ****
+17:49:21 **** Incremental Build of configuration Debug for project 26_16x2I_LCD ****
 make -j8 all 
-arm-none-eabi-size  12_HAL_UART_MemToMem_DMA.elf 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "26_16x2I_LCD.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\hp\STM32CubeIDE\workspace_1.18.0\26_16x2I_LCD\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="26_16x2I_LCD.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: 26_16x2I_LCD.elf
+ 
+arm-none-eabi-size  26_16x2I_LCD.elf 
+arm-none-eabi-objdump -h -S 26_16x2I_LCD.elf  > "26_16x2I_LCD.list"
    text	   data	    bss	    dec	    hex	filename
-  10584	     40	   1752	  12376	   3058	12_HAL_UART_MemToMem_DMA.elf
+   6504	     12	   1572	   8088	   1f98	26_16x2I_LCD.elf
 Finished building: default.size.stdout
  
-10:36:39 **** Incremental Build of configuration Debug for project 12_HAL_UART_MemToMem_DMA ****
-make -j8 all 
-arm-none-eabi-size  12_HAL_UART_MemToMem_DMA.elf 
-   text	   data	    bss	    dec	    hex	filename
-  10584	     40	   1752	  12376	   3058	12_HAL_UART_MemToMem_DMA.elf
-Finished building: default.size.stdout
- 
-10:42:37 **** Incremental Build of configuration Debug for project 12_HAL_UART_MemToMem_DMA ****
-make -j8 all 
-arm-none-eabi-size  12_HAL_UART_MemToMem_DMA.elf 
-   text	   data	    bss	    dec	    hex	filename
-  10584	     40	   1752	  12376	   3058	12_HAL_UART_MemToMem_DMA.elf
-Finished building: default.size.stdout
- 
-10:45:57 **** Incremental Build of configuration Debug for project 12_HAL_UART_MemToMem_DMA ****
-make -j8 all 
-arm-none-eabi-size  12_HAL_UART_MemToMem_DMA.elf 
-   text	   data	    bss	    dec	    hex	filename
-  10584	     40	   1752	  12376	   3058	12_HAL_UART_MemToMem_DMA.elf
-Finished building: default.size.stdout
- 
-10:46:32 **** Incremental Build of configuration Debug for project 12_HAL_UART_MemToMem_DMA ****
-make -j8 all 
-arm-none-eabi-size  12_HAL_UART_MemToMem_DMA.elf 
-   text	   data	    bss	    dec	    hex	filename
-  10584	     40	   1752	  12376	   3058	12_HAL_UART_MemToMem_DMA.elf
-Finished building: default.size.stdout
+Finished building: 26_16x2I_LCD.list
  

@@ -1,0 +1,445 @@
+/* USER CODE BEGIN Header */
+/**
+  ******************************************************************************
+  * @file           : main.c
+  * @brief          : Main program body
+  ******************************************************************************
+  */
+/* USER CODE END Header */
+
+#include "main.h"
+#include <stdio.h>
+#include <string.h>
+
+/* Private variables ---------------------------------------------------------*/
+SPI_HandleTypeDef hspi1;
+UART_HandleTypeDef huart2;
+
+/* USER CODE BEGIN PD */
+#define TRIG_PORT              GPIOB
+#define TRIG_PIN               GPIO_PIN_10
+
+#define ECHO_PORT              GPIOB
+#define ECHO_PIN               GPIO_PIN_9
+
+#define W25_CS_PORT            GPIOA
+#define W25_CS_PIN             GPIO_PIN_4
+
+#define W25Q_WRITE_ENABLE      0x06
+#define W25Q_READ_STATUS1      0x05
+#define W25Q_READ_DATA         0x03
+#define W25Q_PAGE_PROGRAM      0x02
+#define W25Q_SECTOR_ERASE      0x20
+#define W25Q_JEDEC_ID          0x9F
+
+#define FLASH_BASE_ADDR        0x000000U
+#define HISTORY_COUNT          5
+/* USER CODE END PD */
+
+/* Private function prototypes -----------------------------------------------*/
+void SystemClock_Config(void);
+static void MX_GPIO_Init(void);
+static void MX_SPI1_Init(void);
+static void MX_USART2_UART_Init(void);
+
+/* USER CODE BEGIN PFP */
+static void UART_Print(const char *msg);
+static void DWT_Delay_Init(void);
+static void delay_us(uint32_t us);
+
+static uint8_t  W25_ReadStatus1(void);
+static void     W25_WaitBusy(void);
+static void     W25_WriteEnable(void);
+static void     W25_EraseSector(uint32_t address);
+static void     W25_PageProgram(uint32_t address, const uint8_t *data, uint16_t size);
+static void     W25_ReadData(uint32_t address, uint8_t *buffer, uint16_t size);
+static uint32_t W25_ReadJEDECID(void);
+static uint32_t W25_ReadWord(uint32_t address);
+static void     W25_WriteWord(uint32_t address, uint32_t value);
+
+static int32_t  Ultrasonic_ReadCm(void);
+static void     PrintSavedHistory(void);
+/* USER CODE END PFP */
+
+/* USER CODE BEGIN 0 */
+static uint32_t dwt_cycles_per_us = 0;
+
+static void UART_Print(const char *msg)
+{
+  HAL_UART_Transmit(&huart2, (uint8_t *)msg, strlen(msg), HAL_MAX_DELAY);
+}
+
+static void DWT_Delay_Init(void)
+{
+  CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
+  DWT->CYCCNT = 0;
+  DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
+  dwt_cycles_per_us = SystemCoreClock / 1000000U;
+}
+
+static void delay_us(uint32_t us)
+{
+  uint32_t start = DWT->CYCCNT;
+  uint32_t ticks = us * dwt_cycles_per_us;
+  while ((DWT->CYCCNT - start) < ticks)
+  {
+  }
+}
+
+static uint8_t W25_ReadStatus1(void)
+{
+  uint8_t tx[2] = {W25Q_READ_STATUS1, 0xFF};
+  uint8_t rx[2] = {0};
+
+  HAL_GPIO_WritePin(W25_CS_PORT, W25_CS_PIN, GPIO_PIN_RESET);
+  HAL_SPI_TransmitReceive(&hspi1, tx, rx, 2, HAL_MAX_DELAY);
+  HAL_GPIO_WritePin(W25_CS_PORT, W25_CS_PIN, GPIO_PIN_SET);
+
+  return rx[1];
+}
+
+static void W25_WaitBusy(void)
+{
+  while (W25_ReadStatus1() & 0x01)
+  {
+    HAL_Delay(1);
+  }
+}
+
+static void W25_WriteEnable(void)
+{
+  uint8_t cmd = W25Q_WRITE_ENABLE;
+
+  HAL_GPIO_WritePin(W25_CS_PORT, W25_CS_PIN, GPIO_PIN_RESET);
+  HAL_SPI_Transmit(&hspi1, &cmd, 1, HAL_MAX_DELAY);
+  HAL_GPIO_WritePin(W25_CS_PORT, W25_CS_PIN, GPIO_PIN_SET);
+}
+
+static void W25_EraseSector(uint32_t address)
+{
+  uint8_t cmd = W25Q_SECTOR_ERASE;
+  uint8_t addr[3];
+
+  addr[0] = (address >> 16) & 0xFF;
+  addr[1] = (address >> 8) & 0xFF;
+  addr[2] = address & 0xFF;
+
+  W25_WriteEnable();
+
+  HAL_GPIO_WritePin(W25_CS_PORT, W25_CS_PIN, GPIO_PIN_RESET);
+  HAL_SPI_Transmit(&hspi1, &cmd, 1, HAL_MAX_DELAY);
+  HAL_SPI_Transmit(&hspi1, addr, 3, HAL_MAX_DELAY);
+  HAL_GPIO_WritePin(W25_CS_PORT, W25_CS_PIN, GPIO_PIN_SET);
+
+  W25_WaitBusy();
+}
+
+static void W25_PageProgram(uint32_t address, const uint8_t *data, uint16_t size)
+{
+  uint8_t cmd = W25Q_PAGE_PROGRAM;
+  uint8_t addr[3];
+
+  addr[0] = (address >> 16) & 0xFF;
+  addr[1] = (address >> 8) & 0xFF;
+  addr[2] = address & 0xFF;
+
+  W25_WriteEnable();
+
+  HAL_GPIO_WritePin(W25_CS_PORT, W25_CS_PIN, GPIO_PIN_RESET);
+  HAL_SPI_Transmit(&hspi1, &cmd, 1, HAL_MAX_DELAY);
+  HAL_SPI_Transmit(&hspi1, addr, 3, HAL_MAX_DELAY);
+  HAL_SPI_Transmit(&hspi1, (uint8_t *)data, size, HAL_MAX_DELAY);
+  HAL_GPIO_WritePin(W25_CS_PORT, W25_CS_PIN, GPIO_PIN_SET);
+
+  W25_WaitBusy();
+}
+
+static void W25_ReadData(uint32_t address, uint8_t *buffer, uint16_t size)
+{
+  uint8_t cmd = W25Q_READ_DATA;
+  uint8_t addr[3];
+
+  addr[0] = (address >> 16) & 0xFF;
+  addr[1] = (address >> 8) & 0xFF;
+  addr[2] = address & 0xFF;
+
+  HAL_GPIO_WritePin(W25_CS_PORT, W25_CS_PIN, GPIO_PIN_RESET);
+  HAL_SPI_Transmit(&hspi1, &cmd, 1, HAL_MAX_DELAY);
+  HAL_SPI_Transmit(&hspi1, addr, 3, HAL_MAX_DELAY);
+  HAL_SPI_Receive(&hspi1, buffer, size, HAL_MAX_DELAY);
+  HAL_GPIO_WritePin(W25_CS_PORT, W25_CS_PIN, GPIO_PIN_SET);
+}
+
+static uint32_t W25_ReadJEDECID(void)
+{
+  uint8_t tx[4] = {W25Q_JEDEC_ID, 0xFF, 0xFF, 0xFF};
+  uint8_t rx[4] = {0};
+
+  HAL_GPIO_WritePin(W25_CS_PORT, W25_CS_PIN, GPIO_PIN_RESET);
+  HAL_SPI_TransmitReceive(&hspi1, tx, rx, 4, HAL_MAX_DELAY);
+  HAL_GPIO_WritePin(W25_CS_PORT, W25_CS_PIN, GPIO_PIN_SET);
+
+  return ((uint32_t)rx[1] << 16) | ((uint32_t)rx[2] << 8) | rx[3];
+}
+
+static uint32_t W25_ReadWord(uint32_t address)
+{
+  uint32_t value = 0xFFFFFFFFU;
+  W25_ReadData(address, (uint8_t *)&value, 4);
+  return value;
+}
+
+static void W25_WriteWord(uint32_t address, uint32_t value)
+{
+  W25_PageProgram(address, (uint8_t *)&value, 4);
+}
+
+static int32_t Ultrasonic_ReadCm(void)
+{
+  uint32_t echo_start;
+  uint32_t echo_end;
+  uint32_t pulse_us;
+
+  HAL_GPIO_WritePin(TRIG_PORT, TRIG_PIN, GPIO_PIN_RESET);
+  delay_us(2);
+
+  HAL_GPIO_WritePin(TRIG_PORT, TRIG_PIN, GPIO_PIN_SET);
+  delay_us(10);
+  HAL_GPIO_WritePin(TRIG_PORT, TRIG_PIN, GPIO_PIN_RESET);
+
+  /* Wait for ECHO high */
+  uint32_t start_ms = HAL_GetTick();
+  while (HAL_GPIO_ReadPin(ECHO_PORT, ECHO_PIN) == GPIO_PIN_RESET)
+  {
+    if ((HAL_GetTick() - start_ms) > 50U)
+      return -1;
+  }
+
+  echo_start = DWT->CYCCNT;
+
+  /* Wait for ECHO low */
+  while (HAL_GPIO_ReadPin(ECHO_PORT, ECHO_PIN) == GPIO_PIN_SET)
+  {
+    if (((DWT->CYCCNT - echo_start) / dwt_cycles_per_us) > 30000U)
+      return -1;
+  }
+
+  echo_end = DWT->CYCCNT;
+  pulse_us = (echo_end - echo_start) / dwt_cycles_per_us;
+
+  return (int32_t)(pulse_us / 58U);
+}
+
+static void PrintSavedHistory(void)
+{
+  char msg[80];
+
+  UART_Print("\r\n--- Saved readings in external flash ---\r\n");
+  for (uint32_t i = 0; i < HISTORY_COUNT; i++)
+  {
+    uint32_t value = W25_ReadWord(FLASH_BASE_ADDR + (i * 4U));
+    if (value != 0xFFFFFFFFU)
+    {
+      snprintf(msg, sizeof(msg), "Slot %lu = %lu cm\r\n",
+               (unsigned long)i,
+               (unsigned long)value);
+      UART_Print(msg);
+    }
+  }
+}
+/* USER CODE END 0 */
+
+int main(void)
+{
+  HAL_Init();
+  SystemClock_Config();
+
+  MX_GPIO_Init();
+  MX_SPI1_Init();
+  MX_USART2_UART_Init();
+
+  DWT_Delay_Init();
+
+  char msg[100];
+
+  UART_Print("\r\nSystem boot\r\n");
+
+  uint32_t jedec = W25_ReadJEDECID();
+  snprintf(msg, sizeof(msg), "W25Q JEDEC ID = 0x%06lX\r\n", (unsigned long)jedec);
+  UART_Print(msg);
+
+  /* Check already saved values after reset */
+  uint32_t slot = 0;
+  for (uint32_t i = 0; i < HISTORY_COUNT; i++)
+  {
+    uint32_t v = W25_ReadWord(FLASH_BASE_ADDR + (i * 4U));
+    if (v != 0xFFFFFFFFU)
+    {
+      slot = i + 1;
+    }
+    else
+    {
+      break;
+    }
+  }
+
+  if (slot > 0)
+  {
+    UART_Print("Found previous data in flash\r\n");
+    PrintSavedHistory();
+  }
+  else
+  {
+    UART_Print("Flash is empty\r\n");
+  }
+
+  while (1)
+  {
+    if (slot >= HISTORY_COUNT)
+    {
+      UART_Print("\r\nFlash history full. Showing data and erasing sector...\r\n");
+      PrintSavedHistory();
+      W25_EraseSector(FLASH_BASE_ADDR);
+      slot = 0;
+      UART_Print("Sector erased\r\n");
+    }
+
+    int32_t dist = Ultrasonic_ReadCm();
+    if (dist >= 0)
+    {
+      snprintf(msg, sizeof(msg), "Distance = %ld cm\r\n", (long)dist);
+      UART_Print(msg);
+
+      W25_WriteWord(FLASH_BASE_ADDR + (slot * 4U), (uint32_t)dist);
+
+      snprintf(msg, sizeof(msg), "Saved to flash slot %lu\r\n", (unsigned long)slot);
+      UART_Print(msg);
+
+      slot++;
+    }
+    else
+    {
+      UART_Print("Ultrasonic timeout\r\n");
+    }
+
+    HAL_Delay(1000);
+  }
+}
+
+void SystemClock_Config(void)
+{
+  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+
+  __HAL_RCC_PWR_CLK_ENABLE();
+  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
+
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+  RCC_OscInitStruct.PLL.PLLM = 8;
+  RCC_OscInitStruct.PLL.PLLN = 336;
+  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
+  RCC_OscInitStruct.PLL.PLLQ = 7;
+  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK
+                              | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
+
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5) != HAL_OK)
+  {
+    Error_Handler();
+  }
+}
+
+static void MX_SPI1_Init(void)
+{
+  hspi1.Instance = SPI1;
+  hspi1.Init.Mode = SPI_MODE_MASTER;
+  hspi1.Init.Direction = SPI_DIRECTION_2LINES;
+  hspi1.Init.DataSize = SPI_DATASIZE_8BIT;
+  hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
+  hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
+  hspi1.Init.NSS = SPI_NSS_SOFT;
+  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_16;
+  hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
+  hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
+  hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+  hspi1.Init.CRCPolynomial = 10;
+
+  if (HAL_SPI_Init(&hspi1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+}
+
+static void MX_USART2_UART_Init(void)
+{
+  huart2.Instance = USART2;
+  huart2.Init.BaudRate = 115200;
+  huart2.Init.WordLength = UART_WORDLENGTH_8B;
+  huart2.Init.StopBits = UART_STOPBITS_1;
+  huart2.Init.Parity = UART_PARITY_NONE;
+  huart2.Init.Mode = UART_MODE_TX_RX;
+  huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart2.Init.OverSampling = UART_OVERSAMPLING_16;
+
+  if (HAL_UART_Init(&huart2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+}
+
+static void MX_GPIO_Init(void)
+{
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
+
+  __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
+
+  /* Default levels */
+  HAL_GPIO_WritePin(W25_CS_PORT, W25_CS_PIN, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(TRIG_PORT, TRIG_PIN, GPIO_PIN_RESET);
+
+  /* W25Q CS */
+  GPIO_InitStruct.Pin = W25_CS_PIN;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  HAL_GPIO_Init(W25_CS_PORT, &GPIO_InitStruct);
+
+  /* Ultrasonic TRIG */
+  GPIO_InitStruct.Pin = TRIG_PIN;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(TRIG_PORT, &GPIO_InitStruct);
+
+  /* Ultrasonic ECHO */
+  GPIO_InitStruct.Pin = ECHO_PIN;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(ECHO_PORT, &GPIO_InitStruct);
+}
+
+void Error_Handler(void)
+{
+  __disable_irq();
+  while (1)
+  {
+  }
+}
+
+#ifdef USE_FULL_ASSERT
+void assert_failed(uint8_t *file, uint32_t line)
+{
+}
+#endif

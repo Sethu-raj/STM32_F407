@@ -1,0 +1,18 @@
+21:35:38 **** Incremental Build of configuration Debug for project 19_GPIO_Interupt ****
+make -j8 all 
+arm-none-eabi-gcc "../Src/002_LED_TOGGLE_INTERUPT.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -I"C:/Users/hp/STM32CubeIDE/workspace_1.18.0/19_GPIO_Interupt/Inc" -I"C:/Users/hp/STM32CubeIDE/workspace_1.18.0/19_GPIO_Interupt/Drivers/Inc" -I"C:/Users/hp/STM32CubeIDE/workspace_1.18.0/19_GPIO_Interupt/Drivers/Inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/002_LED_TOGGLE_INTERUPT.d" -MT"Src/002_LED_TOGGLE_INTERUPT.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/002_LED_TOGGLE_INTERUPT.o"
+arm-none-eabi-gcc "../Drivers/Src/stm32f407xx_gpio_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -I"C:/Users/hp/STM32CubeIDE/workspace_1.18.0/19_GPIO_Interupt/Inc" -I"C:/Users/hp/STM32CubeIDE/workspace_1.18.0/19_GPIO_Interupt/Drivers/Inc" -I"C:/Users/hp/STM32CubeIDE/workspace_1.18.0/19_GPIO_Interupt/Drivers/Inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/Src/stm32f407xx_gpio_driver.d" -MT"Drivers/Src/stm32f407xx_gpio_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/Src/stm32f407xx_gpio_driver.o"
+arm-none-eabi-gcc -o "19_GPIO_Interupt.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\hp\STM32CubeIDE\workspace_1.18.0\19_GPIO_Interupt\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="19_GPIO_Interupt.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: 19_GPIO_Interupt.elf
+ 
+arm-none-eabi-size  19_GPIO_Interupt.elf 
+arm-none-eabi-objdump -h -S 19_GPIO_Interupt.elf  > "19_GPIO_Interupt.list"
+   text	   data	    bss	    dec	    hex	filename
+   2612	      0	   1568	   4180	   1054	19_GPIO_Interupt.elf
+Finished building: default.size.stdout
+ 
+Finished building: 19_GPIO_Interupt.list
+ 
+
+21:35:40 Build Finished. 0 errors, 0 warnings. (took 1s.784ms)
+

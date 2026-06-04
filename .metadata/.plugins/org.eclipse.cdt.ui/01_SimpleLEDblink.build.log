@@ -1,17 +1,10 @@
-15:11:30 **** Incremental Build of configuration Debug for project 01_SimpleLEDblink ****
+17:40:38 **** Incremental Build of configuration Debug for project 01_SimpleLEDblink ****
 make -j8 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-arm-none-eabi-gcc -o "01_SimpleLEDblink.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\hp\STM32CubeIDE\workspace_1.18.0\01_SimpleLEDblink\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="01_SimpleLEDblink.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: 01_SimpleLEDblink.elf
- 
 arm-none-eabi-size  01_SimpleLEDblink.elf 
-arm-none-eabi-objdump -h -S 01_SimpleLEDblink.elf  > "01_SimpleLEDblink.list"
    text	   data	    bss	    dec	    hex	filename
    6048	     12	   1572	   7632	   1dd0	01_SimpleLEDblink.elf
 Finished building: default.size.stdout
  
-Finished building: 01_SimpleLEDblink.list
- 
 
-15:11:35 Build Finished. 0 errors, 0 warnings. (took 4s.734ms)
+17:40:38 Build Finished. 0 errors, 0 warnings. (took 488ms)
 
