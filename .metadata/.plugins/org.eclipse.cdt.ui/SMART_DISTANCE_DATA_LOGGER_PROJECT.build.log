@@ -1,0 +1,10 @@
+12:58:15 **** Incremental Build of configuration Debug for project SMART_DISTANCE_DATA_LOGGER_PROJECT ****
+make -j8 all 
+arm-none-eabi-size  SMART_DISTANCE_DATA_LOGGER_PROJECT.elf 
+   text	   data	    bss	    dec	    hex	filename
+  26848	     96	  20936	  47880	   bb08	SMART_DISTANCE_DATA_LOGGER_PROJECT.elf
+Finished building: default.size.stdout
+ 
+
+12:58:16 Build Finished. 0 errors, 0 warnings. (took 883ms)
+

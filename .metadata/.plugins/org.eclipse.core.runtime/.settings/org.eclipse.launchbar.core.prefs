@@ -46,5 +46,7 @@ org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:51_Queue_Management_FreeRTOS\ D
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:52_Binary_Semaphore_FreeRTOS/activeLaunchMode=debug
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:53_Counting_Semaphore_FreeRTOS/activeLaunchMode=debug
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:54_Mutex_FreeRTOS\ Debug/activeLaunchMode=debug
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:SMART_DISTANCE_DATA_LOGGER_PROJECT/activeLaunchMode=debug
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:SMART_DISTANCE_DATA_LOGGER_PROJECT/activeLaunchTarget=null\:---
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:stm32f4xx_drivers\ Debug/activeLaunchMode=run
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:stm32f4xx_drivers\ Debug/activeLaunchTarget=null\:---
