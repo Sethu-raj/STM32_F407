@@ -1,2 +1,0 @@
-../Src/001_LED_TOGGLE.c:14:6:delay	16	static
-../Src/001_LED_TOGGLE.c:20:6:led_toggle	24	static
